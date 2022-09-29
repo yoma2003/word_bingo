@@ -2,7 +2,7 @@
 bingo_size = gets.chomp.to_i
 
 # ビンゴカードの作成
-# ビンゴカードの空配列を定義
+# ビンゴカード用の配列を用意
 bingo_cards = []
 bingo_size.times do
   bingo_cards << gets.chomp.split
