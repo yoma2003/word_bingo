@@ -54,7 +54,7 @@ def is_bingo?(bingo_size, bingo_cards, match_count)
   end
 
   # 左上→右下斜列の判定
-  # 確認用の配列を用意
+  # 判定用の配列を用意
   l_diagram = []
   bingo_size.times do |i|
     l_diagram << bingo_cards[i][i]
@@ -65,7 +65,7 @@ def is_bingo?(bingo_size, bingo_cards, match_count)
   end
 
   # 右上→左下斜列の判定
-  # 確認用の配列を用意
+  # 判定用の配列を用意
   r_diagram = []
   bingo_size.times do |i|
     r_diagram << bingo_cards[(bingo_size - 1) - i][i]
