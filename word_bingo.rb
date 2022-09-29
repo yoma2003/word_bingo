@@ -2,13 +2,17 @@
 bingo_size = gets.chomp.to_i
 
 # ビンゴカードの作成
+# ビンゴカードの空配列を定義
 bingo_cards = []
 bingo_size.times do
   bingo_cards << gets.chomp.split
 end
 
-# 単語入力回数の定義
+# 単語の入力回数を定義
 number_of_inputs = gets.chomp.to_i
+
+# マッチした回数の初期値を定義
+match_count = 0
 
 # 入力された単語を判定する処理
 number_of_inputs.times do
@@ -16,66 +20,61 @@ number_of_inputs.times do
   input_word = gets.chomp
   bingo_cards.each_with_index do |row, r|
     row.each_with_index do |card_word, c|
-      # カードの中に入力された単語があれば"#"に変える
+      # カードの単語と入力された単語がマッチすれば"#"に変え、マッチした回数を1増やす
       if card_word == input_word
-        bingo_cards[r][c] = "#" 
+        bingo_cards[r][c] = "#"
+        match_count += 1
       end
     end
   end
 end
 
+# ビンゴ判定
+def is_bingo?(bingo_size, bingo_cards, match_count)
+  # マッチした回数での判定
+  # マッチした回数がビンゴサイズより少なければ、ビンゴになりえないのでfalseを返す
+  if match_count < bingo_size
+    return false
+  end
 
-# 結果初期値の定義
-result = "no"
+  # 横列の判定
+  bingo_cards.each do |row|
+    # 横列がすべて"#"であればtrueを返す
+    if row == [].fill("#", 0, bingo_size)
+      return true
+    end
+  end
 
-# 横列の判定
-bingo_size.times do |r|
+  # 縦列の判定
+  bingo_cards.transpose.each do |column|
+    # 縦列がすべて"#"であればtrueを返す
+    if column == [].fill("#", 0, bingo_size)
+      return true
+    end
+  end
+
+  # 左上→右下斜列の判定
   # 確認用の配列を用意
-  check_array = []
-  bingo_size.times do |c|
-    check_array << bingo_cards[r][c]
+  l_diagram = []
+  bingo_size.times do |i|
+    l_diagram << bingo_cards[i][i]
   end
-  # 配列がすべて"#"であればresultを"yes"に変える
-  if check_array == [].fill("#", 0, bingo_size)
-    result = "yes"
+  # 配列がすべて"#"であればtrueを返す
+  if l_diagram == [].fill("#", 0, bingo_size)
+    return true
   end
-end
 
-# 縦列の判定
-bingo_size.times do |c|
+  # 右上→左下斜列の判定
   # 確認用の配列を用意
-  check_array = []
-  bingo_size.times do |r|
-    check_array << bingo_cards[r][c]
+  r_diagram = []
+  bingo_size.times do |i|
+    r_diagram << bingo_cards[(bingo_size - 1) - i][i]
   end
-  # 配列がすべて"#"であればresultを"yes"に変える
-  if check_array == [].fill("#", 0, bingo_size)
-    result = "yes"
+  # 配列がすべて"#"であればtrueを返す
+  if r_diagram == [].fill("#", 0, bingo_size)
+    return true
   end
 end
 
-# 右斜列の判定
-# 確認用の配列を用意
-check_array = []
-bingo_size.times do |i|
-  check_array << bingo_cards[i][i]
-end
-# 配列がすべて"#"であればresultを"yes"に変える
-if check_array == [].fill("#", 0, bingo_size)
-  result = "yes"
-end
-
-# 左斜列の判定
-# 確認用の配列を用意
-check_array = []
-bingo_size.times do |i|
-  check_array << bingo_cards[(bingo_size - 1) - i][i]
-end
-# 配列がすべて"#"であればresultを"yes"に変える
-if check_array == [].fill("#", 0, bingo_size)
-  result = "yes"
-end
-
-
-#結果を出力
-puts result
+# ビンゴ判定を実行し結果を表示
+puts is_bingo?(bingo_size, bingo_cards, match_count) ? "yes" : "no"
