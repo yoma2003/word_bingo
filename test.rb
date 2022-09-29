@@ -90,6 +90,21 @@ class TestWordBingo < Minitest::Test
   end
 
   def test_5
+    str = <<~EOS
+      3
+      a b c
+      d e f
+      g h i
+      1
+      e
+    EOS
+    $stdin = StringIO.new(str)
+    $stdout = StringIO.new
+    load './word_bingo.rb'
+    assert_equal 'no', $stdout.string.chomp
+  end
+
+  def test_6
     str = "1000"
     str += "\n"
     1000000.times do |n|
@@ -98,12 +113,14 @@ class TestWordBingo < Minitest::Test
         str += "\n"
       end
     end
-    str += "5"
+    str += "2000"
     str += "\n"
-    str += "1\n2\n3\n4\n5"
+    2000.times do |m|
+      str += "#{m + 1}\n"
+    end
     $stdin = StringIO.new(str)
     $stdout = StringIO.new
     load './word_bingo.rb'
-    assert_equal 'no', $stdout.string.chomp
+    assert_equal 'yes', $stdout.string.chomp
   end
 end
