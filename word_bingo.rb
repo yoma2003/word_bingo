@@ -11,7 +11,7 @@ end
 # 単語の入力回数を定義
 number_of_inputs = gets.chomp.to_i
 
-# 単語入力回数がビンゴサイズよりも少なければビンゴになりえないので"no"を返して処理を終了する
+# 単語入力回数がビンゴサイズよりも少なければ、ビンゴになりえないので"no"を返して処理を終了する
 if number_of_inputs < bingo_size
   puts "no"
   return
