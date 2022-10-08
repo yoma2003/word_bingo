@@ -11,6 +11,12 @@ end
 # 単語の入力回数を定義
 number_of_inputs = gets.chomp.to_i
 
+# 単語入力回数がビンゴサイズよりも少なければビンゴになりえないので"no"を返して処理を終了する
+if number_of_inputs < bingo_size
+  puts "no"
+  return
+end
+
 # マッチした回数の初期値を定義
 match_count = 0
 
